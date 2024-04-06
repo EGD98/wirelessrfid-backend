@@ -29,10 +29,12 @@ public class User {
     private Integer phoneNumber;
     private String email;
     private String password;
-    @JoinColumn(name = "id_user_type", foreignKey = @ForeignKey(name = "fk_user_cat_user_type"))
-    private CatUserType userType;
-    @JoinColumn(name = "id_corporation", foreignKey = @ForeignKey(name = "fk_user_corporation"))
-    private Corporation corporation;
+
+    @Column(name = "id_user_type")
+    private Integer idUserType;
+
+    @Column(name = "id_corporation")
+    private Integer idCorporation;
     
     @Column(name = "creation_date")
     private Date creationDate;

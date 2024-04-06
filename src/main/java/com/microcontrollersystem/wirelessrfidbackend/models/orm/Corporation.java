@@ -20,8 +20,10 @@ public class Corporation {
     private Integer id;
     private String name;
     private String code;
-    @JoinColumn(name = "id_payment_type", foreignKey = @ForeignKey(name = "fk_corporation_cat_payment_type"))
-    private CatPaymentType paymentType;
+
+    @Column(name = "id_payment_type")
+    private Integer idPaymentType;
+
     @Column(name = "registry_date")
     private Date registryDate;
     

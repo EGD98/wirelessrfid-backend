@@ -18,6 +18,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
+@Table(name = "space")
 public class Space {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

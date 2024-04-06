@@ -13,6 +13,7 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Entity
+    @Table(name = "rfid_request")
 public class RfidRequest {
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

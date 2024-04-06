@@ -18,9 +18,9 @@ public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    
-    @JoinColumn(name = "id_client", foreignKey = @ForeignKey(name = "fk_schedule_client"))
-    private Client client;
+
+    @Column(name = "id_client")
+    private Integer idClient;
     
     @Column(name = "start_date")
     private Date startDate;
@@ -33,9 +33,9 @@ public class Schedule {
     
     @Column(name = "end_hour")
     private Date endHour;
-    
-    @JoinColumn(name = "id_space", foreignKey = @ForeignKey(name = "fk_schedule_space"))
-    private Space space;
+
+    @Column(name = "id_space")
+    private Integer idSpace;
     
     @Column(name = "creation_date")
     private Date creationDate;
