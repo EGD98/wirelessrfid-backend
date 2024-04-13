@@ -1,8 +1,10 @@
 package com.microcontrollersystem.wirelessrfidbackend.controllers;
 
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
 import com.microcontrollersystem.wirelessrfidbackend.models.dto.LoginRequest;
 import com.microcontrollersystem.wirelessrfidbackend.models.dto.LoginResponse;
 import com.microcontrollersystem.wirelessrfidbackend.models.orm.User;
+import com.microcontrollersystem.wirelessrfidbackend.services.JWTUtil;
 import com.microcontrollersystem.wirelessrfidbackend.services.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,24 +16,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
-
 @Slf4j
 @RestController
-@RequestMapping("/api")
 @AllArgsConstructor
-public class LoginController {
-
+@RequestMapping("/api")
+public class OauthController {
+    private final JWTUtil jwtUtil;
     private final UserService userService;
 
-    @PostMapping(value = "/loginRequest2")
-    public ResponseEntity<Object> Login (@RequestBody LoginRequest loginRequest) {
+    @PostMapping(value = "/loginRequest")
+    public ResponseEntity<Object>  loginRequest (@RequestBody LoginRequest loginRequest){
         try {
             User user = userService.validateUser(loginRequest);
-            LoginResponse loginResponse = null;
+            String token = null;
             if (Objects.nonNull(user)) {
-                loginResponse = LoginResponse.asDTO(user);
+                token = jwtUtil.create(String.valueOf(user.getId()), user.getEmail());
             }
-            return new ResponseEntity<>(loginResponse, HttpStatus.OK);
+            return new ResponseEntity<>(token, HttpStatus.OK);
         } catch (Exception e) {
             log.error("Ha ocurrido un error: {}", e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
