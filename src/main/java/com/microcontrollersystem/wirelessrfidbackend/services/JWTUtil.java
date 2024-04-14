@@ -1,16 +1,15 @@
 package com.microcontrollersystem.wirelessrfidbackend.services;
 
 import com.microcontrollersystem.wirelessrfidbackend.configuration.Security;
+import io.jsonwebtoken.*;
 import lombok.AllArgsConstructor;
 import javax.xml.bind.DatatypeConverter;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+
 import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
+import java.time.Instant;
 import java.util.Date;
 
 
@@ -81,4 +80,33 @@ public class JWTUtil {
 
         return claims.getId();
     }
+
+    public void validateToken(String token) throws Exception {
+        if (token == null || !token.startsWith("Bearer ")) {
+            // El token no está presente o no está en el formato esperado
+            throw new Exception("Token no válido");
+        }
+
+        String jwtToken = token.substring(7); // Eliminamos "Bearer " del inicio del token
+
+        try {
+            // Validar el token
+            Claims claims = Jwts.parser()
+                    .setSigningKey(security.getSecret().getBytes("UTF-8"))
+                    .parseClaimsJws(jwtToken)
+                    .getBody();
+            Instant tokenExpiration = claims.getExpiration().toInstant();
+
+            if (tokenExpiration.isBefore(Instant.now())){
+                throw new Exception("TOKEN EXPIRADO!");
+            }
+            // Aquí puedes hacer lo que necesites con las claims del token
+            // Por ejemplo, obtener información del usuario, roles, etc.
+
+        } catch (JwtException | IllegalArgumentException e) {
+            // Capturar cualquier excepción relacionada con la validación del token
+            throw new Exception("ERROR AL VALIDAR EL TOKEN");
+        }
+    }
+
 }

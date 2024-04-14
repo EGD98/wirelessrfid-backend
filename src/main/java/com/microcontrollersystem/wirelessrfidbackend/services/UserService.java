@@ -6,6 +6,7 @@ import com.microcontrollersystem.wirelessrfidbackend.repositories.UserRepository
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,5 +21,9 @@ public class UserService {
              return userOptional.get();
 
          return null;
+     }
+
+     public List<User> getUserList() {
+         return userRepository.findAll();
      }
 }
