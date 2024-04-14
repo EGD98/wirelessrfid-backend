@@ -20,7 +20,8 @@ public class UserData {
         userData.setId(user.getId().toString());
         userData.setName(user.getName());
         userData.setFirstName(user.getFirstName());
-        userData.setLastName(user.getUserName());
+        userData.setLastName(user.getLastName());
+        userData.setUserName(user.getUserName());
         userData.setPhoneNumber(user.getPhoneNumber().toString());
         userData.setEmail(user.getEmail());
         userData.setIdUserType(user.getIdUserType().toString());
