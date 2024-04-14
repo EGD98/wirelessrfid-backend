@@ -3,3 +3,6 @@ security:
     secret: "123"
     issuer: "Main"
     ttlMillis: 604800000
+
+eligio-object:
+  deus: true
