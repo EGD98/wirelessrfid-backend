@@ -26,7 +26,7 @@ public class User {
     @Column(name = "user_name")
     private String userName;
     @Column(name = "phone_number")
-    private Integer phoneNumber;
+    private Long phoneNumber;
     private String email;
     private String password;
 
@@ -37,7 +37,7 @@ public class User {
     private Integer idCorporation;
     
     @Column(name = "creation_date")
-    private Date creationDate;
+    private Date creationDate = new Date();
     @Column(name = "edit_date")
     private Date editDate;
     

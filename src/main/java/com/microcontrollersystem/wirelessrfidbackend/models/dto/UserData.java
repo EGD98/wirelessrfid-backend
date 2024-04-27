@@ -11,11 +11,12 @@ public class UserData {
     private String lastName;
     private String userName;
     private String phoneNumber;
+    private String password;
     private String email;
     private String idUserType;
     private String idCorporation;
 
-    public static UserData asDTO(User user) {
+    public static UserData from(User user) {
         UserData userData = new UserData();
         userData.setId(user.getId().toString());
         userData.setName(user.getName());
@@ -27,5 +28,19 @@ public class UserData {
         userData.setIdUserType(user.getIdUserType().toString());
         userData.setIdCorporation(user.getIdCorporation().toString());
         return userData;
+    }
+
+    public User asDTO() {
+        User user = new User();
+        user.setName(this.name);
+        user.setFirstName(this.firstName);
+        user.setLastName(this.lastName);
+        user.setUserName(this.userName);
+        user.setPhoneNumber(Long.valueOf(this.phoneNumber));
+        user.setEmail(this.email);
+        user.setIdUserType(Integer.valueOf(this.idUserType));
+        user.setIdCorporation(Integer.valueOf(this.idCorporation));
+        user.setPassword(this.password);
+        return user;
     }
 }

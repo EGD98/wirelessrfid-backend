@@ -109,4 +109,21 @@ public class JWTUtil {
         }
     }
 
+    public Integer getTokenIdUser(String token) throws Exception {
+
+        String jwtToken = token.substring(7); // Eliminamos "Bearer " del inicio del token
+        try {
+            // Validar el token
+            Claims claims = Jwts.parser()
+                    .setSigningKey(security.getSecret().getBytes("UTF-8"))
+                    .parseClaimsJws(jwtToken)
+                    .getBody();
+            Instant tokenExpiration = claims.getExpiration().toInstant();
+            return Integer.valueOf(claims.getId());
+        } catch (JwtException | IllegalArgumentException e) {
+            // Capturar cualquier excepción relacionada con la validación del token
+            throw new Exception("ERROR AL VALIDAR EL TOKEN");
+        }
+    }
+
 }

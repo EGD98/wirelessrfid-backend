@@ -8,10 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,19 +23,33 @@ public class UserController {
 
     @PostMapping(value = "/userList")
     public ResponseEntity<Object> getUserList(@RequestHeader("Authorization") String token ) {
-        try{
+        try {
             jwtUtil.validateToken(token);
         } catch (Exception e){
-            log.error("TOKEN UNAUTHORIZED", e.getMessage());
+            log.error("TOKEN UNAUTHORIZED {}", e.getMessage(), e);
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
 
         List<User> users = userService.getUserList();
         List<UserData> userDataList = new ArrayList<>();
         for (User user : users){
-            UserData userData = UserData.asDTO(user);
+            UserData userData = UserData.from(user);
             userDataList.add(userData);
         }
         return new ResponseEntity<>(userDataList, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/addUser")
+    public ResponseEntity<String> addUser(@RequestHeader("Authorization") String token, @RequestBody UserData userData) {
+        Integer idUser = null;
+        try {
+            jwtUtil.validateToken(token);
+            idUser = jwtUtil.getTokenIdUser(token);
+        } catch (Exception e){
+            log.error("TOKEN UNAUTHORIZED {}", e.getMessage(), e);
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        String response = userService.addUser(userData, idUser);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
