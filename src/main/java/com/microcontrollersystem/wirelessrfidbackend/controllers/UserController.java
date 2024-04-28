@@ -39,7 +39,7 @@ public class UserController {
         return new ResponseEntity<>(userDataList, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/addUser")
+    @PostMapping(value = "/user")
     public ResponseEntity<String> addUser(@RequestHeader("Authorization") String token, @RequestBody UserData userData) {
         Integer idUser = null;
         try {
@@ -50,6 +50,20 @@ public class UserController {
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
         }
         String response = userService.addUser(userData, idUser);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/deleteUser")
+    public ResponseEntity<String> deleteUser(@RequestHeader("Authorization") String token, @RequestBody Integer idUser) {
+        Integer idUserEditor = null;
+        try {
+            jwtUtil.validateToken(token);
+            idUserEditor = jwtUtil.getTokenIdUser(token);
+        } catch (Exception e){
+            log.error("TOKEN UNAUTHORIZED {}", e.getMessage(), e);
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        String response = userService.deleteUser(idUserEditor, idUser);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

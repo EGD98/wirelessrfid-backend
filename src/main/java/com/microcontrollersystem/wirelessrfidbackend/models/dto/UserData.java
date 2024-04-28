@@ -32,6 +32,20 @@ public class UserData {
 
     public User asDTO() {
         User user = new User();
+        user.setId(this.id.isEmpty() ? null : Integer.parseInt(this.id));
+        user.setName(this.name);
+        user.setFirstName(this.firstName);
+        user.setLastName(this.lastName);
+        user.setUserName(this.userName);
+        user.setPhoneNumber(Long.valueOf(this.phoneNumber));
+        user.setEmail(this.email);
+        user.setIdUserType(Integer.valueOf(this.idUserType));
+        user.setIdCorporation(Integer.valueOf(this.idCorporation));
+        user.setPassword(this.password);
+        return user;
+    }
+    public User asDTO(User user) {
+        user.setId(this.id.isEmpty() ? null : Integer.parseInt(this.id));
         user.setName(this.name);
         user.setFirstName(this.firstName);
         user.setLastName(this.lastName);
