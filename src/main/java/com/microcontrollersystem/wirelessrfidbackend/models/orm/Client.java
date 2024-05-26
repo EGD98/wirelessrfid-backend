@@ -24,7 +24,7 @@ public class Client {
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "phone_number")
-    private Integer phoneNumber;
+    private Long phoneNumber;
     private String email;
     @Column(name = "rfid_code")
     private String rfidCode;
@@ -39,7 +39,7 @@ public class Client {
     private Date egressTime;
     
     @Column(name = "creation_date")
-    private Date creationDate;
+    private Date creationDate = new Date();
     @Column(name = "edit_date")
     private Date editDate;
     
