@@ -2,8 +2,10 @@ package com.microcontrollersystem.wirelessrfidbackend.services;
 
 import com.microcontrollersystem.wirelessrfidbackend.models.orm.CatUserType;
 import com.microcontrollersystem.wirelessrfidbackend.models.orm.Corporation;
+import com.microcontrollersystem.wirelessrfidbackend.models.orm.Space;
 import com.microcontrollersystem.wirelessrfidbackend.repositories.CatUserTypeRepository;
 import com.microcontrollersystem.wirelessrfidbackend.repositories.CorporationRepository;
+import com.microcontrollersystem.wirelessrfidbackend.repositories.SpaceRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ public class CatalogService {
 
     private final CatUserTypeRepository catUserTypeRepository;
     private final CorporationRepository corporationRepository;
+    private final SpaceRepository spaceRepository;
 
     public List<Map<String, Object>> getCatalog(String name) {
         List<Map<String, Object>> catalogList = new ArrayList<>();
@@ -39,6 +42,15 @@ public class CatalogService {
                     Map<String, Object> map = new HashMap<>();
                     map.put("code", corporation.getId());
                     map.put("description", corporation.getName());
+                    catalogList.add(map);
+                }
+                return catalogList;
+            case "SPACE_TYPE":
+                List<Space> spaceList = spaceRepository.findAllByStatusTrue();
+                for (Space space : spaceList) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("code", space.getId());
+                    map.put("description", space.getRoomName());
                     catalogList.add(map);
                 }
                 return catalogList;
