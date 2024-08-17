@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -51,5 +52,11 @@ public class ClientService {
         return Objects.nonNull(clientSaved.getId()) ? respuesta
                 : "Ha ocurrido un error al intentar eliminar el cliente";
     }
+    public Client getClientById(Integer id){
+        Optional<Client> clientOptional = clientRepository.findById(id);
+        if(clientOptional.isPresent())
+            return clientOptional.get();
+        else return new Client();
 
+    }
 }

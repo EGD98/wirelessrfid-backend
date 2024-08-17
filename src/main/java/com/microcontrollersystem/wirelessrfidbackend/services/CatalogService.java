@@ -1,9 +1,11 @@
 package com.microcontrollersystem.wirelessrfidbackend.services;
 
 import com.microcontrollersystem.wirelessrfidbackend.models.orm.CatUserType;
+import com.microcontrollersystem.wirelessrfidbackend.models.orm.Client;
 import com.microcontrollersystem.wirelessrfidbackend.models.orm.Corporation;
 import com.microcontrollersystem.wirelessrfidbackend.models.orm.Space;
 import com.microcontrollersystem.wirelessrfidbackend.repositories.CatUserTypeRepository;
+import com.microcontrollersystem.wirelessrfidbackend.repositories.ClientRepository;
 import com.microcontrollersystem.wirelessrfidbackend.repositories.CorporationRepository;
 import com.microcontrollersystem.wirelessrfidbackend.repositories.SpaceRepository;
 import lombok.AllArgsConstructor;
@@ -23,6 +25,7 @@ public class CatalogService {
     private final CatUserTypeRepository catUserTypeRepository;
     private final CorporationRepository corporationRepository;
     private final SpaceRepository spaceRepository;
+    private final ClientRepository clientRepository;
 
     public List<Map<String, Object>> getCatalog(String name) {
         List<Map<String, Object>> catalogList = new ArrayList<>();
@@ -52,6 +55,16 @@ public class CatalogService {
                     map.put("code", space.getId());
                     map.put("description", space.getRoomName());
                     catalogList.add(map);
+                }
+                return catalogList;
+            case "CLIENT_TYPE":
+                List<Client> clientList = clientRepository.findAllByStatusTrue();
+                for (Client client : clientList) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("code", client.getId());
+                    map.put("description", client.getName()+" "+ client.getFirstName() +" "+client.getLastName());
+                    catalogList.add(map);
+
                 }
                 return catalogList;
             default:

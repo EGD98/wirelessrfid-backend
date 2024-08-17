@@ -26,25 +26,12 @@ public class Client {
     @Column(name = "phone_number")
     private Long phoneNumber;
     private String email;
-    @Column(name = "rfid_code")
-    private String rfidCode;
-    private String space;
-    @Column(name = "admission_date")
-    private Date admissionDate;
-    @Column(name = "egress_date")
-    private Date egressDate;
-    @Column(name = "admission_time")
-    private Date admissionTime;
-    @Column(name = "egress_time")
-    private Date egressTime;
-    
+
     @Column(name = "creation_date")
     private Date creationDate = new Date();
     @Column(name = "edit_date")
     private Date editDate;
-    
     private Boolean status = true;
-    
     @Column(name = "creator_user")
     private Integer creatorUser;
     @Column(name = "editor_user")

@@ -50,6 +50,8 @@ public class Schedule {
     private Integer creatorUser;
     @Column(name = "editor_user")
     private Integer editorUser;
+    @Column(name = "rfid_code")
+    private String rfidCode;
 
     @Override
     public final boolean equals(Object o) {

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -52,4 +53,7 @@ public class SpaceService {
                 : "Ha ocurrido un error al intentar eliminar el Espacio";
     }
 
+    public Space getSpaceById(Integer id){
+        return spaceRepository.getReferenceById(id);
+    }
 }

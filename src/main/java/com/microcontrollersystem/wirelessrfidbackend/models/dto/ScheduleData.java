@@ -15,6 +15,7 @@ public class ScheduleData {
     private String startHour;
     private String endHour;
     private String idSpace;
+    private String rfidCode;
 
     public static ScheduleData from(Schedule schedule) {
         ScheduleData scheduleData = new ScheduleData();
@@ -27,6 +28,7 @@ public class ScheduleData {
         scheduleData.setStartHour(outputFormatterHour.format(schedule.getStartHour()));
         scheduleData.setEndHour(outputFormatterHour.format(schedule.getEndHour()));
         scheduleData.setIdSpace(String.valueOf(schedule.getIdSpace()));
+        scheduleData.setRfidCode(schedule.getRfidCode());
         return scheduleData;
     }
 
@@ -41,6 +43,7 @@ public class ScheduleData {
         schedule.setStartHour(outputFormatterHour.parse(this.getStartHour()));
         schedule.setEndHour(outputFormatterHour.parse(this.getEndHour()));
         schedule.setIdSpace(Integer.parseInt(this.getIdSpace()));
+        schedule.setRfidCode(this.getRfidCode());
         return schedule;
     }
 
@@ -56,6 +59,7 @@ public class ScheduleData {
         schedule.setStartHour(outputFormatterHour.parse(this.getStartHour()));
         schedule.setEndHour(outputFormatterHour.parse(this.getEndHour()));
         schedule.setIdSpace(Integer.parseInt(this.getIdSpace()));
+        schedule.setRfidCode(this.getRfidCode());
         return schedule;
     }
 }

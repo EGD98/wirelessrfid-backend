@@ -1,9 +1,13 @@
 package com.microcontrollersystem.wirelessrfidbackend.controllers;
 
 import com.microcontrollersystem.wirelessrfidbackend.models.dto.ScheduleData;
+import com.microcontrollersystem.wirelessrfidbackend.models.orm.Client;
 import com.microcontrollersystem.wirelessrfidbackend.models.orm.Schedule;
+import com.microcontrollersystem.wirelessrfidbackend.models.orm.Space;
+import com.microcontrollersystem.wirelessrfidbackend.services.ClientService;
 import com.microcontrollersystem.wirelessrfidbackend.services.JWTUtil;
 import com.microcontrollersystem.wirelessrfidbackend.services.ScheduleService;
+import com.microcontrollersystem.wirelessrfidbackend.services.SpaceService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,6 +24,8 @@ import java.util.List;
 public class ScheduleController {
     private JWTUtil jwtUtil;
     private ScheduleService scheduleService;
+    private ClientService clientService;
+    private SpaceService spaceService;
 
     @PostMapping(value = "/scheduleList")
     public ResponseEntity<Object> getScheduleList(@RequestHeader("Authorization") String token) {
@@ -33,6 +39,10 @@ public class ScheduleController {
         List<ScheduleData> scheduleDataList = new ArrayList<>();
         for (Schedule schedule : schedules) {
             ScheduleData scheduleData = ScheduleData.from(schedule);
+            Client client = clientService.getClientById(Integer.parseInt(scheduleData.getIdClient()));
+            scheduleData.setIdClient(client.getName()+" "+client.getFirstName()+" "+client.getLastName());
+            Space space = spaceService.getSpaceById(Integer.parseInt(scheduleData.getIdSpace()));
+            scheduleData.setIdSpace(space.getRoomName());
             scheduleDataList.add(scheduleData);
         }
         return new ResponseEntity<>(scheduleDataList, HttpStatus.OK);

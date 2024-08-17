@@ -15,12 +15,6 @@ public class ClientData {
     private String lastName;
     private String  phoneNumber;
     private String email;
-    private String rfidCode;
-    private String space;
-    private String  admissionDate;
-    private String  egressDate;
-    private String  admissionTime;
-    private String  egressTime;
 
     public  static ClientData from(Client client){
         ClientData clientData = new ClientData();
@@ -32,12 +26,6 @@ public class ClientData {
         clientData.setLastName(client.getLastName());
         clientData.setPhoneNumber(client.getPhoneNumber().toString());
         clientData.setEmail(client.getEmail());
-        clientData.setRfidCode(client.getRfidCode());
-        clientData.setSpace(client.getSpace());
-        clientData.setAdmissionDate(outputFormatterDate.format(client.getAdmissionDate()));
-        clientData.setEgressDate(outputFormatterDate.format(client.getEgressDate()));
-        clientData.setAdmissionTime(outputFormatter.format(client.getAdmissionTime()));
-        clientData.setEgressTime(outputFormatter.format(client.getEgressTime()));
         return clientData;
     }
 
@@ -49,19 +37,8 @@ public class ClientData {
         client.setName(this.name);
         client.setFirstName(this.firstName);
         client.setLastName(this.lastName);
-        client.setSpace(this.space);
-        client.setRfidCode(this.rfidCode);
         client.setPhoneNumber(Long.valueOf(this.phoneNumber));
         client.setEmail(this.email);
-        Date date = sdf.parse(this.admissionDate);
-        client.setAdmissionDate(date);
-        date = sdf.parse(this.egressDate);
-        client.setEgressDate(date);
-
-
-        client.setAdmissionTime(new Date());
-
-        client.setEgressTime(new Date());
         return client;
     }
     @SneakyThrows
@@ -72,18 +49,8 @@ public class ClientData {
         client.setName(this.name);
         client.setFirstName(this.firstName);
         client.setLastName(this.lastName);
-        client.setSpace(this.space);
-        client.setRfidCode(this.rfidCode);
         client.setPhoneNumber(Long.valueOf(this.phoneNumber));
         client.setEmail(this.email);
-        Date date = sdf.parse(this.admissionDate);
-        client.setAdmissionDate(date);
-        date = sdf.parse(this.egressDate);
-        client.setEgressDate(date);
-        date = formatter.parse(this.admissionTime);
-        client.setAdmissionTime(date);
-        date = formatter.parse(this.egressTime);
-        client.setEgressTime(date);
         return client;
     }
 
