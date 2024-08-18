@@ -1,8 +1,14 @@
 package com.microcontrollersystem.wirelessrfidbackend.services;
 
+import com.microcontrollersystem.wirelessrfidbackend.models.dto.ClientData;
 import com.microcontrollersystem.wirelessrfidbackend.models.dto.ScheduleData;
+import com.microcontrollersystem.wirelessrfidbackend.models.dto.SpaceData;
+import com.microcontrollersystem.wirelessrfidbackend.models.orm.Client;
 import com.microcontrollersystem.wirelessrfidbackend.models.orm.Schedule;
+import com.microcontrollersystem.wirelessrfidbackend.models.orm.Space;
+import com.microcontrollersystem.wirelessrfidbackend.repositories.ClientRepository;
 import com.microcontrollersystem.wirelessrfidbackend.repositories.ScheduleRepository;
+import com.microcontrollersystem.wirelessrfidbackend.repositories.SpaceRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,6 +22,8 @@ import java.util.Objects;
 @AllArgsConstructor
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
+    private final ClientService clientService;
+    private final SpaceService spaceService;
 
     public List<Schedule> getScheduleList() {
         return scheduleRepository.findAllByStatusTrue();
@@ -23,6 +31,12 @@ public class ScheduleService {
 
     public String addSchedule(ScheduleData scheduleData, Integer idUser) {
         Schedule schedule;
+        Client client = clientService.getClientById(Integer.parseInt(scheduleData.getClientData().getId()));
+        ClientData clientData = ClientData.from(client);
+        scheduleData.setClientData(clientData);
+        Space space = spaceService.getSpaceById(Integer.parseInt(scheduleData.getSpaceData().getId()));
+        SpaceData spaceData = SpaceData.from(space);
+        scheduleData.setSpaceData(spaceData);
         if (!scheduleData.getId().isEmpty()) {
             schedule = scheduleRepository.
                     findById(Integer.parseInt(scheduleData.getId())).

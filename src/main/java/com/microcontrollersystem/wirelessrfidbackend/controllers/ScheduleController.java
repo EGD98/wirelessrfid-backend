@@ -1,6 +1,8 @@
 package com.microcontrollersystem.wirelessrfidbackend.controllers;
 
+import com.microcontrollersystem.wirelessrfidbackend.models.dto.ClientData;
 import com.microcontrollersystem.wirelessrfidbackend.models.dto.ScheduleData;
+import com.microcontrollersystem.wirelessrfidbackend.models.dto.SpaceData;
 import com.microcontrollersystem.wirelessrfidbackend.models.orm.Client;
 import com.microcontrollersystem.wirelessrfidbackend.models.orm.Schedule;
 import com.microcontrollersystem.wirelessrfidbackend.models.orm.Space;
@@ -38,11 +40,11 @@ public class ScheduleController {
         List<Schedule> schedules = scheduleService.getScheduleList();
         List<ScheduleData> scheduleDataList = new ArrayList<>();
         for (Schedule schedule : schedules) {
-            ScheduleData scheduleData = ScheduleData.from(schedule);
-            Client client = clientService.getClientById(Integer.parseInt(scheduleData.getIdClient()));
-            scheduleData.setIdClient(client.getName()+" "+client.getFirstName()+" "+client.getLastName());
-            Space space = spaceService.getSpaceById(Integer.parseInt(scheduleData.getIdSpace()));
-            scheduleData.setIdSpace(space.getRoomName());
+            Client client = clientService.getClientById(schedule.getIdClient());
+            ClientData clientData =  ClientData.from(client);
+            Space space = spaceService.getSpaceById(schedule.getIdSpace());
+            SpaceData spaceData = SpaceData.from(space);
+            ScheduleData scheduleData = ScheduleData.from(schedule,clientData,spaceData);
             scheduleDataList.add(scheduleData);
         }
         return new ResponseEntity<>(scheduleDataList, HttpStatus.OK);
